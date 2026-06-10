@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quick Menu From What We Have</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #18221b;
+      --muted: #5b675f;
+      --paper: #fbfaf5;
+      --card: #ffffff;
+      --line: #d9ded2;
+      --accent: #2f6f4e;
+      --accent-soft: #e7f1ea;
+      --warn: #7b4c13;
+      --warn-soft: #fff3dc;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font: 17px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      width: min(820px, 100%);
+      margin: 0 auto;
+      padding: 20px 16px 48px;
+    }
+
+    header {
+      padding: 16px 0 10px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 8vw, 48px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .lede {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .note {
+      margin: 12px 0 0;
+      padding: 12px 14px;
+      border: 1px solid #eed7ad;
+      border-radius: 8px;
+      background: var(--warn-soft);
+      color: var(--warn);
+      font-weight: 650;
+    }
+
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      gap: 8px;
+      margin: 0 -16px 14px;
+      padding: 10px 16px;
+      background: rgba(251, 250, 245, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-button {
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #c9d2c7;
+      border-radius: 8px;
+      padding: 0 14px;
+      color: var(--accent);
+      background: var(--card);
+      text-decoration: none;
+      font: inherit;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .nav-button.primary {
+      color: #ffffff;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    section {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      margin: 14px 0;
+      box-shadow: 0 1px 0 rgba(24, 34, 27, 0.04);
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 14px 0 6px;
+      color: var(--accent);
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+
+    h3:first-child {
+      margin-top: 0;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    li {
+      padding: 4px 0;
+    }
+
+    .choice-list {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .choice-list li {
+      padding: 12px 14px;
+      border: 1px solid #eef1ea;
+      border-radius: 8px;
+      background: #fbfdfb;
+    }
+
+    .choice-list strong {
+      display: block;
+      margin-bottom: 2px;
+      color: var(--accent);
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 14px;
+      padding: 14px 2px 0;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Quick Menu</h1>
+      <p class="lede">Use this when nobody wants to think. Pick one protein, add one carb, and keep the portion small.</p>
+      <p class="note">Protein first. Carbs are fine when paired with protein. Repeat small meals later.</p>
+    </header>
+
+    <nav class="top-nav" aria-label="Page links">
+      <a class="nav-button primary" href="../shopping-list/">Shopping list</a>
+      <a class="nav-button" href="https://github.com/schneyer/WholeNewtrition">GitHub</a>
+    </nav>
+
+    <section>
+      <h2>What We Have</h2>
+
+      <h3>Proteins</h3>
+      <ul>
+        <li>Rotisserie chicken</li>
+        <li>Turkey breast slices</li>
+        <li>Shrimp cocktail</li>
+        <li>Mild turkey chili</li>
+        <li>Chicken soup with rice or noodles</li>
+        <li>Turkey/chicken vegetable soup</li>
+        <li>Salmon filets</li>
+        <li>Ground turkey</li>
+        <li>Lean beef patties</li>
+      </ul>
+
+      <h3>Carbs / Sides</h3>
+      <ul>
+        <li>Sweet potatoes</li>
+        <li>Small bananas</li>
+        <li>Pita or crackers</li>
+        <li>Tomato soup</li>
+      </ul>
+
+      <h3>Snacks / Extras</h3>
+      <ul>
+        <li>Hummus</li>
+        <li>Mixed nuts</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Easy Choices</h2>
+      <ul class="choice-list">
+        <li><strong>Chicken plate</strong>Rotisserie chicken + sweet potato + tomato soup</li>
+        <li><strong>Soup upgrade</strong>Chicken soup + extra rotisserie chicken</li>
+        <li><strong>Turkey snack plate</strong>Turkey slices + pita/crackers + hummus</li>
+        <li><strong>Shrimp plate</strong>Shrimp cocktail + crackers/pita + a few bites of banana</li>
+        <li><strong>Turkey chili bowl</strong>Mild turkey chili + sweet potato</li>
+        <li><strong>Salmon dinner</strong>Salmon filet + sweet potato + soup</li>
+        <li><strong>Burger plate</strong>Lean beef patty + sweet potato + tomato soup</li>
+        <li><strong>Ground turkey skillet</strong>Ground turkey + diced sweet potato + mild seasoning</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>If Appetite Is Low</h2>
+      <ul>
+        <li>Chicken soup with extra chicken</li>
+        <li>Turkey slices with crackers</li>
+        <li>Shrimp cocktail</li>
+        <li>A few bites of rotisserie chicken and sweet potato</li>
+        <li>Small turkey chili bowl</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Buy More When Low</h2>
+      <ul>
+        <li>Rotisserie chicken or prepared chicken</li>
+        <li>Turkey slices</li>
+        <li>Protein shakes</li>
+        <li>Sweet potatoes</li>
+        <li>Crackers or pita</li>
+        <li>Easy soup</li>
+        <li>Berries or small bananas</li>
+        <li>Mild cooked vegetables</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Quick Reminders</h2>
+      <ul>
+        <li>Protein first.</li>
+        <li>Carbs are fine; pair them with protein.</li>
+        <li>Keep portions small and repeat later.</li>
+        <li>Go easy on nuts and hummus if digestion is touchy.</li>
+        <li>Add chicken, turkey, shrimp, or ground turkey to soup if it seems light.</li>
+      </ul>
+    </section>
+
+    <footer>
+      <p>This is a practical meal aid, not a substitute for the surgical or oncology team's instructions.</p>
+    </footer>
+  </main>
+</body>
+</html>
+
