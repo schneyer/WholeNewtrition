@@ -1,9 +1,15 @@
-const repoRawBase = "https://raw.githubusercontent.com/schneyer/WholeNewtrition/main/Post-Pancreatectomy-Nutrition-Plan/";
+const repoContentsBase = "https://api.github.com/repos/schneyer/WholeNewtrition/contents/Post-Pancreatectomy-Nutrition-Plan/";
 
 export async function fetchMarkdown(fileName) {
-  const response = await fetch(`${repoRawBase}${fileName}`, { cache: "no-store" });
+  const response = await fetch(`${repoContentsBase}${fileName}?ref=main`, {
+    cache: "no-store",
+    headers: { Accept: "application/vnd.github+json" }
+  });
   if (!response.ok) throw new Error(`Could not load ${fileName}`);
-  return response.text();
+  const payload = await response.json();
+  const binary = atob(payload.content.replace(/\s/g, ""));
+  const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+  return new TextDecoder("utf-8").decode(bytes);
 }
 
 export function parseMarkdown(markdown) {
@@ -130,4 +136,3 @@ export function documentNode(tag, options = {}, text = "") {
   else node.textContent = text;
   return node;
 }
-
