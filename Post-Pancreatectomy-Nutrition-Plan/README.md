@@ -14,6 +14,7 @@ Core theme:
 - [Questions for Surgical / Oncology Team](./04-questions-for-care-team.md)
 - [Working Notes and Sources](./05-working-notes-and-sources.md)
 - [Current Inventory and Quick Menu Ideas](./06-current-inventory-and-menu-ideas.md)
+- [Menu Ideas From Current Checked Items](./07-menu-ideas-from-checked-items.md)
 
 ## Current Assumptions
 
