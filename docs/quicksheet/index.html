@@ -3,21 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Quick Menu</title>
+  <title>Dad's Food Plan</title>
   <link rel="stylesheet" href="../assets/app.css">
 </head>
 <body>
   <main>
     <header>
-      <h1 id="page-title">Quick Menu</h1>
-      <p class="lede" id="page-lede">Loading menu ideas...</p>
-      <p class="note">Protein first. Carbs are fine when paired with protein. Repeat small meals later.</p>
+      <h1 id="page-title">Dad's Food Plan</h1>
+      <p class="lede" id="page-lede">Loading quicksheet...</p>
     </header>
 
     <nav class="top-nav" aria-label="Page links">
       <a class="nav-button" href="../shopping-list/">Shopping list</a>
-      <a class="nav-button primary" href="../menu/">Quick menu</a>
-      <a class="nav-button" href="../quicksheet/">Quicksheet</a>
+      <a class="nav-button" href="../menu/">Quick menu</a>
+      <a class="nav-button primary" href="../quicksheet/">Quicksheet</a>
     </nav>
 
     <div id="content"></div>
@@ -30,11 +29,12 @@
   <script type="module">
     import { fetchMarkdown, parseMarkdown, renderInline, renderMarkdownDocument } from "../assets/markdown.js";
 
-    const markdown = await fetchMarkdown("07-menu-ideas-from-checked-items.md");
+    const markdown = await fetchMarkdown("02-mom-nutrition-quicksheet.md");
     const documentData = parseMarkdown(markdown);
     document.getElementById("page-title").textContent = documentData.title;
     document.getElementById("page-lede").innerHTML = documentData.intro.map(renderInline).join(" ");
-    renderMarkdownDocument(documentData, document.getElementById("content"), { choiceLists: true });
+    renderMarkdownDocument(documentData, document.getElementById("content"));
   </script>
 </body>
 </html>
+

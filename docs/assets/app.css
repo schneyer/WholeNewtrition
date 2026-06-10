@@ -1,0 +1,396 @@
+:root {
+  color-scheme: light;
+  --ink: #18221b;
+  --muted: #5b675f;
+  --paper: #fbfaf5;
+  --card: #ffffff;
+  --line: #d9ded2;
+  --accent: #2f6f4e;
+  --accent-soft: #e7f1ea;
+  --warn: #7b4c13;
+  --warn-soft: #fff3dc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font: 17px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+main {
+  width: min(820px, 100%);
+  margin: 0 auto;
+  padding: 20px 16px 48px;
+}
+
+header {
+  padding: 16px 0 10px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 16px;
+}
+
+h1 {
+  margin: 0 0 10px;
+  font-size: clamp(30px, 8vw, 48px);
+  line-height: 1.02;
+  letter-spacing: 0;
+}
+
+h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  line-height: 1.18;
+  letter-spacing: 0;
+}
+
+h3 {
+  margin: 14px 0 6px;
+  color: var(--accent);
+  font-size: 17px;
+  letter-spacing: 0;
+}
+
+h3:first-child {
+  margin-top: 0;
+}
+
+p {
+  margin: 0 0 10px;
+}
+
+.lede {
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.note {
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  border: 1px solid #eed7ad;
+  border-radius: 8px;
+  background: var(--warn-soft);
+  color: var(--warn);
+  font-weight: 650;
+}
+
+.top-nav,
+.controls {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 -16px 14px;
+  padding: 10px 16px;
+  background: rgba(251, 250, 245, 0.96);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+}
+
+.top-nav {
+  justify-content: flex-start;
+}
+
+.control-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nav-button,
+.control-button {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #c9d2c7;
+  border-radius: 8px;
+  padding: 0 14px;
+  color: var(--accent);
+  background: var(--card);
+  text-decoration: none;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.nav-button.primary,
+.control-button.primary {
+  color: #ffffff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.control-button:active,
+.nav-button:active {
+  transform: translateY(1px);
+}
+
+.save-status {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.jump {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 0 14px;
+  margin-bottom: 4px;
+}
+
+.jump a {
+  flex: 0 0 auto;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid #c8ddcf;
+  border-radius: 999px;
+  padding: 8px 12px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+section {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 14px 0;
+  box-shadow: 0 1px 0 rgba(24, 34, 27, 0.04);
+}
+
+.section-note {
+  margin: 0 0 12px;
+  color: var(--muted);
+}
+
+ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+li {
+  padding: 4px 0;
+}
+
+.checklist {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.checklist li {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  align-items: start;
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid #eef1ea;
+}
+
+.checklist li:first-child {
+  border-top: 0;
+}
+
+input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  margin: 1px 0 0;
+  accent-color: var(--accent);
+}
+
+label {
+  min-width: 0;
+}
+
+.checked-panel {
+  display: none;
+  border-color: #bed6c5;
+  background: #f7fbf8;
+}
+
+.checked-panel.is-visible {
+  display: block;
+}
+
+.checked-panel-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.checked-panel h2 {
+  margin-bottom: 4px;
+}
+
+.checked-panel p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.checked-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.checked-list {
+  display: grid;
+  gap: 14px;
+}
+
+.checked-group h3 {
+  margin: 0 0 6px;
+}
+
+.checked-group li {
+  padding: 3px 0;
+}
+
+.empty-message {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.choice-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.choice-list li {
+  padding: 12px 14px;
+  border: 1px solid #eef1ea;
+  border-radius: 8px;
+  background: #fbfdfb;
+}
+
+.choice-list strong {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--accent);
+}
+
+.markdown section > p:first-child {
+  color: var(--muted);
+}
+
+footer {
+  color: var(--muted);
+  font-size: 14px;
+  padding: 14px 2px 0;
+}
+
+.home-links {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.home-links a {
+  display: block;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  background: var(--card);
+  text-decoration: none;
+  box-shadow: 0 1px 0 rgba(24, 34, 27, 0.04);
+}
+
+.home-links strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--accent);
+  font-size: 20px;
+}
+
+.home-links span {
+  color: var(--muted);
+}
+
+@media print {
+  body {
+    background: #fff;
+    font-size: 12px;
+  }
+
+  main {
+    max-width: none;
+    padding: 0;
+  }
+
+  .jump,
+  .controls,
+  .top-nav {
+    display: none;
+  }
+
+  .checked-panel {
+    display: block;
+  }
+
+  .checked-panel-header,
+  .checked-actions {
+    display: none;
+  }
+
+  body.printing-checked header,
+  body.printing-checked .controls,
+  body.printing-checked .jump,
+  body.printing-checked footer,
+  body.printing-checked main > section:not(#checked-panel) {
+    display: none;
+  }
+
+  body.printing-checked .checked-panel {
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  section {
+    break-inside: avoid;
+    box-shadow: none;
+    margin: 8px 0;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  h2 {
+    font-size: 16px;
+  }
+
+  .checklist li {
+    padding: 3px 0;
+    grid-template-columns: 22px 1fr;
+  }
+
+  input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+  }
+}
+

@@ -4,345 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Whole Foods Shopping List</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --ink: #18221b;
-      --muted: #5b675f;
-      --paper: #fbfaf5;
-      --card: #ffffff;
-      --line: #d9ded2;
-      --accent: #2f6f4e;
-      --accent-soft: #e7f1ea;
-      --warn: #7b4c13;
-      --warn-soft: #fff3dc;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      color: var(--ink);
-      background: var(--paper);
-      font: 17px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    main {
-      width: min(820px, 100%);
-      margin: 0 auto;
-      padding: 20px 16px 48px;
-    }
-
-    header {
-      padding: 16px 0 10px;
-      border-bottom: 1px solid var(--line);
-      margin-bottom: 16px;
-    }
-
-    h1 {
-      margin: 0 0 10px;
-      font-size: clamp(30px, 8vw, 48px);
-      line-height: 1.02;
-      letter-spacing: 0;
-    }
-
-    .lede {
-      margin: 0 0 10px;
-      color: var(--muted);
-      font-size: 18px;
-    }
-
-    .note {
-      margin: 12px 0 0;
-      padding: 12px 14px;
-      border: 1px solid #eed7ad;
-      border-radius: 8px;
-      background: var(--warn-soft);
-      color: var(--warn);
-      font-weight: 650;
-    }
-
-    .controls {
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin: 0 -16px 14px;
-      padding: 10px 16px;
-      background: rgba(251, 250, 245, 0.96);
-      border-bottom: 1px solid var(--line);
-      backdrop-filter: blur(10px);
-    }
-
-    .control-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .save-status {
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 650;
-    }
-
-    .control-button {
-      min-height: 40px;
-      border: 1px solid #c9d2c7;
-      border-radius: 8px;
-      padding: 0 14px;
-      color: var(--accent);
-      background: var(--card);
-      font: inherit;
-      font-size: 15px;
-      font-weight: 800;
-    }
-
-    .control-button.primary {
-      color: #ffffff;
-      background: var(--accent);
-      border-color: var(--accent);
-    }
-
-    .control-button:active {
-      transform: translateY(1px);
-    }
-
-    .checked-panel {
-      display: none;
-      border-color: #bed6c5;
-      background: #f7fbf8;
-    }
-
-    .checked-panel.is-visible {
-      display: block;
-    }
-
-    .checked-panel-header {
-      display: flex;
-      align-items: start;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    .checked-panel h2 {
-      margin-bottom: 4px;
-    }
-
-    .checked-panel p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .checked-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 0 0 12px;
-    }
-
-    .checked-list {
-      display: grid;
-      gap: 14px;
-    }
-
-    .checked-group h3 {
-      margin: 0 0 6px;
-      font-size: 16px;
-      line-height: 1.2;
-      letter-spacing: 0;
-      color: var(--accent);
-    }
-
-    .checked-group ul {
-      padding-left: 20px;
-      list-style: disc;
-      display: block;
-    }
-
-    .checked-group li {
-      display: list-item;
-      padding: 3px 0;
-      border-top: 0;
-    }
-
-    .empty-message {
-      margin: 0;
-      padding: 12px 14px;
-      border-radius: 8px;
-      background: #ffffff;
-      border: 1px solid var(--line);
-      color: var(--muted);
-    }
-
-    .jump {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding: 4px 0 14px;
-      margin-bottom: 4px;
-    }
-
-    .jump a {
-      flex: 0 0 auto;
-      color: var(--accent);
-      background: var(--accent-soft);
-      border: 1px solid #c8ddcf;
-      border-radius: 999px;
-      padding: 8px 12px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    section {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 16px;
-      margin: 14px 0;
-      box-shadow: 0 1px 0 rgba(24, 34, 27, 0.04);
-    }
-
-    h2 {
-      margin: 0 0 10px;
-      font-size: 22px;
-      line-height: 1.18;
-      letter-spacing: 0;
-    }
-
-    .section-note {
-      margin: 0 0 12px;
-      color: var(--muted);
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      gap: 2px;
-    }
-
-    li {
-      display: grid;
-      grid-template-columns: 30px 1fr;
-      align-items: start;
-      gap: 8px;
-      padding: 8px 0;
-      border-top: 1px solid #eef1ea;
-    }
-
-    li:first-child {
-      border-top: 0;
-    }
-
-    input[type="checkbox"] {
-      width: 22px;
-      height: 22px;
-      margin: 1px 0 0;
-      accent-color: var(--accent);
-    }
-
-    label {
-      min-width: 0;
-    }
-
-    .avoid {
-      border-color: #ecd3c3;
-    }
-
-    .avoid h2 {
-      color: #7c301d;
-    }
-
-    footer {
-      color: var(--muted);
-      font-size: 14px;
-      padding: 14px 2px 0;
-    }
-
-    @media print {
-      body {
-        background: #fff;
-        font-size: 12px;
-      }
-
-      main {
-        max-width: none;
-        padding: 0;
-      }
-
-      .jump {
-        display: none;
-      }
-
-      .controls {
-        display: none;
-      }
-
-      .checked-panel {
-        display: block;
-      }
-
-      .checked-panel-header,
-      .checked-actions {
-        display: none;
-      }
-
-      body.printing-checked header,
-      body.printing-checked .controls,
-      body.printing-checked .jump,
-      body.printing-checked footer,
-      body.printing-checked main > section:not(#checked-panel) {
-        display: none;
-      }
-
-      body.printing-checked .checked-panel {
-        border: 0;
-        margin: 0;
-        padding: 0;
-      }
-
-      section {
-        break-inside: avoid;
-        box-shadow: none;
-        margin: 8px 0;
-        padding: 10px;
-      }
-
-      h1 {
-        font-size: 28px;
-      }
-
-      h2 {
-        font-size: 16px;
-      }
-
-      li {
-        padding: 3px 0;
-        grid-template-columns: 22px 1fr;
-      }
-
-      input[type="checkbox"] {
-        width: 14px;
-        height: 14px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="../assets/app.css">
 </head>
 <body>
   <main>
     <header>
-      <h1>Whole Foods Shopping List</h1>
-      <p class="lede">Buy easy, normal, appetizing options so Dad can eat enough while recovering.</p>
+      <h1 id="page-title">Whole Foods Shopping List</h1>
+      <p class="lede" id="page-lede">Loading shopping list...</p>
       <p class="note">Main idea: protein often, moderate carbs, avoid sugar bombs, keep meals small.</p>
     </header>
 
@@ -351,6 +19,7 @@
       <div class="control-actions">
         <button id="show-checked" class="control-button primary" type="button">Checked list</button>
         <a class="control-button" href="../menu/">Menu ideas</a>
+        <a class="control-button" href="../quicksheet/">Quicksheet</a>
         <button id="reset-list" class="control-button" type="button">Clear checks</button>
       </div>
     </div>
@@ -371,368 +40,256 @@
       <div id="checked-list" class="checked-list"></div>
     </section>
 
-    <nav class="jump" aria-label="Shopping list sections">
-      <a href="#prepared">Prepared</a>
-      <a href="#protein">Protein</a>
-      <a href="#shakes">Shakes</a>
-      <a href="#snacks">Snacks</a>
-      <a href="#carbs">Carbs</a>
-      <a href="#sides">Sides</a>
-      <a href="#breakfast">Breakfast</a>
-      <a href="#avoid">Avoid</a>
-    </nav>
-
-    <section id="prepared">
-      <h2>Prepared / Ready-To-Eat Proteins</h2>
-      <ul>
-        <li><input id="p1" type="checkbox"><label for="p1">Rotisserie chicken</label></li>
-        <li><input id="p2" type="checkbox"><label for="p2">Grilled chicken breasts or chicken skewers</label></li>
-        <li><input id="p3" type="checkbox"><label for="p3">Prepared salmon filets</label></li>
-        <li><input id="p4" type="checkbox"><label for="p4">Mild turkey meatballs</label></li>
-        <li><input id="p5" type="checkbox"><label for="p5">Turkey breast slices from the deli</label></li>
-        <li><input id="p6" type="checkbox"><label for="p6">Roast beef slices</label></li>
-        <li><input id="p7" type="checkbox"><label for="p7">Shrimp cocktail</label></li>
-        <li><input id="p8" type="checkbox"><label for="p8">Chicken salad, if not too mayo-heavy</label></li>
-        <li><input id="p9" type="checkbox"><label for="p9">Tuna salad, if not too mayo-heavy</label></li>
-        <li><input id="p10" type="checkbox"><label for="p10">Mild turkey chili</label></li>
-        <li><input id="p11" type="checkbox"><label for="p11">Chicken soup with rice or noodles</label></li>
-        <li><input id="p12" type="checkbox"><label for="p12">Turkey or chicken vegetable soup</label></li>
-        <li><input id="p13" type="checkbox"><label for="p13">Bone broth or high-protein sipping broth</label></li>
-      </ul>
-    </section>
-
-    <section id="protein">
-      <h2>Easy Cook-at-Home Proteins</h2>
-      <ul>
-        <li><input id="c1" type="checkbox"><label for="c1">Salmon filets</label></li>
-        <li><input id="c2" type="checkbox"><label for="c2">Cod, halibut, or other mild white fish</label></li>
-        <li><input id="c3" type="checkbox"><label for="c3">Chicken breasts or thighs</label></li>
-        <li><input id="c4" type="checkbox"><label for="c4">Ground turkey</label></li>
-        <li><input id="c5" type="checkbox"><label for="c5">Turkey burgers</label></li>
-        <li><input id="c6" type="checkbox"><label for="c6">Lean beef patties</label></li>
-        <li><input id="c7" type="checkbox"><label for="c7">Pork tenderloin</label></li>
-        <li><input id="c8" type="checkbox"><label for="c8">Mild chicken sausage</label></li>
-        <li><input id="c9" type="checkbox"><label for="c9">Frozen grilled chicken strips</label></li>
-        <li><input id="c10" type="checkbox"><label for="c10">Canned tuna</label></li>
-        <li><input id="c11" type="checkbox"><label for="c11">Tuna packets</label></li>
-        <li><input id="c12" type="checkbox"><label for="c12">Salmon packets</label></li>
-        <li><input id="c13" type="checkbox"><label for="c13">Sardines, only if he likes them</label></li>
-      </ul>
-    </section>
-
-    <section id="shakes">
-      <h2>Low-Sugar Protein Drinks</h2>
-      <p class="section-note">Look for high protein and low added sugar.</p>
-      <ul>
-        <li><input id="d1" type="checkbox"><label for="d1">Fairlife Core Power, 26g or 42g protein</label></li>
-        <li><input id="d2" type="checkbox"><label for="d2">Premier Protein shakes</label></li>
-        <li><input id="d3" type="checkbox"><label for="d3">OWYN protein shakes</label></li>
-        <li><input id="d4" type="checkbox"><label for="d4">Orgain Clean Protein, lower-sugar versions</label></li>
-        <li><input id="d5" type="checkbox"><label for="d5">Ensure Max Protein</label></li>
-        <li><input id="d6" type="checkbox"><label for="d6">Glucerna shakes, especially if the team prefers diabetes-oriented shakes</label></li>
-        <li><input id="d7" type="checkbox"><label for="d7">Unflavored whey protein</label></li>
-        <li><input id="d8" type="checkbox"><label for="d8">Collagen peptides, useful but not a complete protein by itself</label></li>
-      </ul>
-    </section>
-
-    <section id="snacks">
-      <h2>Protein Snacks</h2>
-      <ul>
-        <li><input id="s1" type="checkbox"><label for="s1">Turkey roll-ups, no cheese</label></li>
-        <li><input id="s2" type="checkbox"><label for="s2">Tuna or salmon packets with crackers</label></li>
-        <li><input id="s3" type="checkbox"><label for="s3">Low-sugar jerky, ideally softer texture</label></li>
-        <li><input id="s4" type="checkbox"><label for="s4">Roasted edamame</label></li>
-        <li><input id="s5" type="checkbox"><label for="s5">Hummus with pita or crackers, if texture is tolerated</label></li>
-        <li><input id="s6" type="checkbox"><label for="s6">Peanut butter packets</label></li>
-        <li><input id="s7" type="checkbox"><label for="s7">Almond butter packets</label></li>
-        <li><input id="s8" type="checkbox"><label for="s8">Mixed nuts, lightly salted</label></li>
-        <li><input id="s9" type="checkbox"><label for="s9">Low-sugar protein bars: RXBAR, Aloha, Think!, Quest, Barebells</label></li>
-        <li><input id="s10" type="checkbox"><label for="s10">Nut butter on toast or crackers</label></li>
-      </ul>
-    </section>
-
-    <section id="carbs">
-      <h2>Moderate Carbs</h2>
-      <p class="section-note">Carbs are not the enemy. Pair them with protein.</p>
-      <ul>
-        <li><input id="m1" type="checkbox"><label for="m1">Plain or low-sugar oatmeal cups</label></li>
-        <li><input id="m2" type="checkbox"><label for="m2">Rolled oats</label></li>
-        <li><input id="m3" type="checkbox"><label for="m3">Sweet potatoes</label></li>
-        <li><input id="m4" type="checkbox"><label for="m4">Yukon gold or red potatoes</label></li>
-        <li><input id="m5" type="checkbox"><label for="m5">Microwave rice cups</label></li>
-        <li><input id="m6" type="checkbox"><label for="m6">Quinoa cups</label></li>
-        <li><input id="m7" type="checkbox"><label for="m7">Whole grain bread</label></li>
-        <li><input id="m8" type="checkbox"><label for="m8">Sourdough bread</label></li>
-        <li><input id="m9" type="checkbox"><label for="m9">Whole wheat English muffins</label></li>
-        <li><input id="m10" type="checkbox"><label for="m10">Whole grain crackers</label></li>
-        <li><input id="m11" type="checkbox"><label for="m11">Pita bread</label></li>
-        <li><input id="m12" type="checkbox"><label for="m12">Low-sugar granola</label></li>
-        <li><input id="m13" type="checkbox"><label for="m13">Small bananas</label></li>
-        <li><input id="m14" type="checkbox"><label for="m14">Berries</label></li>
-        <li><input id="m15" type="checkbox"><label for="m15">Apples</label></li>
-        <li><input id="m16" type="checkbox"><label for="m16">Pears</label></li>
-        <li><input id="m17" type="checkbox"><label for="m17">Clementines</label></li>
-        <li><input id="m18" type="checkbox"><label for="m18">Frozen berries</label></li>
-        <li><input id="m19" type="checkbox"><label for="m19">Unsweetened applesauce cups, only if texture is okay</label></li>
-      </ul>
-    </section>
-
-    <section id="sides">
-      <h2>Vegetables / Sides</h2>
-      <p class="section-note">Cooked vegetables may be easier than raw vegetables early on.</p>
-      <ul>
-        <li><input id="v1" type="checkbox"><label for="v1">Green beans</label></li>
-        <li><input id="v2" type="checkbox"><label for="v2">Carrots</label></li>
-        <li><input id="v3" type="checkbox"><label for="v3">Zucchini</label></li>
-        <li><input id="v4" type="checkbox"><label for="v4">Broccoli florets, cooked well</label></li>
-        <li><input id="v5" type="checkbox"><label for="v5">Baby spinach</label></li>
-        <li><input id="v6" type="checkbox"><label for="v6">Roasted vegetable trays</label></li>
-        <li><input id="v7" type="checkbox"><label for="v7">Steam-in-bag vegetables</label></li>
-        <li><input id="v8" type="checkbox"><label for="v8">Avocados, if fat is tolerated</label></li>
-        <li><input id="v9" type="checkbox"><label for="v9">Cucumbers</label></li>
-        <li><input id="v10" type="checkbox"><label for="v10">Tomato soup, check sugar</label></li>
-        <li><input id="v11" type="checkbox"><label for="v11">Low-sodium vegetable soup</label></li>
-        <li><input id="v12" type="checkbox"><label for="v12">Simple salad kits, use dressing lightly</label></li>
-      </ul>
-    </section>
-
-    <section id="boosters">
-      <h2>Healthy Calorie Boosters</h2>
-      <p class="section-note">Use these to prevent weight loss, but go slowly if fat bothers digestion.</p>
-      <ul>
-        <li><input id="b1" type="checkbox"><label for="b1">Olive oil</label></li>
-        <li><input id="b2" type="checkbox"><label for="b2">Avocado oil</label></li>
-        <li><input id="b3" type="checkbox"><label for="b3">Peanut butter</label></li>
-        <li><input id="b4" type="checkbox"><label for="b4">Almond butter</label></li>
-        <li><input id="b5" type="checkbox"><label for="b5">Nuts</label></li>
-        <li><input id="b6" type="checkbox"><label for="b6">Seeds</label></li>
-        <li><input id="b7" type="checkbox"><label for="b7">Tahini</label></li>
-        <li><input id="b8" type="checkbox"><label for="b8">Avocado</label></li>
-        <li><input id="b9" type="checkbox"><label for="b9">Low-sugar trail mix</label></li>
-      </ul>
-    </section>
-
-    <section id="breakfast">
-      <h2>Breakfast Options, No Eggs / No Cheese</h2>
-      <ul>
-        <li><input id="bf1" type="checkbox"><label for="bf1">Oatmeal plus protein powder plus berries</label></li>
-        <li><input id="bf2" type="checkbox"><label for="bf2">Turkey sausage plus toast plus fruit</label></li>
-        <li><input id="bf3" type="checkbox"><label for="bf3">Peanut butter toast plus protein shake</label></li>
-        <li><input id="bf4" type="checkbox"><label for="bf4">Smoked salmon on toast or crackers</label></li>
-        <li><input id="bf5" type="checkbox"><label for="bf5">Chicken sausage plus sweet potato</label></li>
-        <li><input id="bf6" type="checkbox"><label for="bf6">Whole grain waffle plus peanut butter plus berries</label></li>
-        <li><input id="bf7" type="checkbox"><label for="bf7">Oatmeal cup plus turkey slices</label></li>
-      </ul>
-    </section>
-
-    <section id="meals">
-      <h2>Lunch / Dinner Convenience Meals</h2>
-      <ul>
-        <li><input id="l1" type="checkbox"><label for="l1">Rotisserie chicken plus rice cup plus green beans</label></li>
-        <li><input id="l2" type="checkbox"><label for="l2">Salmon plus sweet potato plus spinach</label></li>
-        <li><input id="l3" type="checkbox"><label for="l3">Turkey chili plus crackers</label></li>
-        <li><input id="l4" type="checkbox"><label for="l4">Chicken soup plus toast</label></li>
-        <li><input id="l5" type="checkbox"><label for="l5">Turkey sandwich plus fruit</label></li>
-        <li><input id="l6" type="checkbox"><label for="l6">Tuna packet plus crackers plus cucumber</label></li>
-        <li><input id="l7" type="checkbox"><label for="l7">Turkey meatballs plus rice plus vegetables</label></li>
-        <li><input id="l8" type="checkbox"><label for="l8">Mild chicken sausage plus potato plus cooked vegetables</label></li>
-        <li><input id="l9" type="checkbox"><label for="l9">Frozen meals with 20g+ protein and low added sugar</label></li>
-      </ul>
-    </section>
-
-    <section id="hydration">
-      <h2>Hydration</h2>
-      <ul>
-        <li><input id="h1" type="checkbox"><label for="h1">Water</label></li>
-        <li><input id="h2" type="checkbox"><label for="h2">Sparkling water, unsweetened</label></li>
-        <li><input id="h3" type="checkbox"><label for="h3">Low/no-sugar electrolyte packets: LMNT, Nuun Sport, Liquid I.V. sugar-free</label></li>
-        <li><input id="h4" type="checkbox"><label for="h4">Herbal tea</label></li>
-        <li><input id="h5" type="checkbox"><label for="h5">Broth</label></li>
-      </ul>
-    </section>
-
-    <section id="avoid" class="avoid">
-      <h2>Buy Less Of For Now</h2>
-      <ul>
-        <li><input id="a1" type="checkbox"><label for="a1">Juice</label></li>
-        <li><input id="a2" type="checkbox"><label for="a2">Soda</label></li>
-        <li><input id="a3" type="checkbox"><label for="a3">Sweet tea</label></li>
-        <li><input id="a4" type="checkbox"><label for="a4">Candy</label></li>
-        <li><input id="a5" type="checkbox"><label for="a5">Cookies, cakes, pastries, ice cream</label></li>
-        <li><input id="a6" type="checkbox"><label for="a6">Big greasy fried foods</label></li>
-        <li><input id="a7" type="checkbox"><label for="a7">Very spicy meals</label></li>
-        <li><input id="a8" type="checkbox"><label for="a8">Huge pasta or rice portions without protein</label></li>
-        <li><input id="a9" type="checkbox"><label for="a9">Smoothies made mostly from fruit juice</label></li>
-        <li><input id="a10" type="checkbox"><label for="a10">Giant raw salads if digestion is touchy</label></li>
-      </ul>
-    </section>
+    <nav id="jump" class="jump" aria-label="Shopping list sections"></nav>
+    <div id="shopping-sections"></div>
 
     <footer>
-      <p>This is a practical shopping aid, not a substitute for the surgical or oncology team's instructions.</p>
+      <p>This page renders from the Markdown source in the repo. Checked items are saved only on this device.</p>
     </footer>
   </main>
-  <script>
-    (() => {
-      const storageKey = "whole-foods-shopping-list-v1";
-      const checkboxes = Array.from(document.querySelectorAll('input[type="checkbox"][id]'));
-      const status = document.getElementById("save-status");
-      const reset = document.getElementById("reset-list");
-      const showChecked = document.getElementById("show-checked");
-      const hideChecked = document.getElementById("hide-checked");
-      const checkedPanel = document.getElementById("checked-panel");
-      const checkedSummary = document.getElementById("checked-summary");
-      const checkedList = document.getElementById("checked-list");
-      const copyChecked = document.getElementById("copy-checked");
-      const shareChecked = document.getElementById("share-checked");
-      const printChecked = document.getElementById("print-checked");
 
-      const loadChecks = () => {
-        try {
-          return JSON.parse(localStorage.getItem(storageKey)) || {};
-        } catch {
-          return {};
-        }
-      };
+  <script type="module">
+    import { fetchMarkdown, parseMarkdown, renderInline, slugify } from "../assets/markdown.js";
 
-      const saveChecks = () => {
-        const checks = {};
-        checkboxes.forEach((box) => {
-          checks[box.id] = box.checked;
-        });
-        localStorage.setItem(storageKey, JSON.stringify(checks));
-        const checkedCount = checkboxes.filter((box) => box.checked).length;
-        status.textContent = checkedCount
-          ? `Saved: ${checkedCount} checked`
-          : "Saved on this phone";
-      };
+    const storageKey = "whole-foods-shopping-list-v1";
+    const prefixByTitle = {
+      "Prepared / Ready-To-Eat Proteins": "p",
+      "Easy Cook-at-Home Proteins": "c",
+      "Low-Sugar Protein Drinks": "d",
+      "Protein Snacks": "s",
+      "Moderate Carbs": "m",
+      "Vegetables / Sides": "v",
+      "Healthy Calorie Boosters": "b",
+      "Breakfast Options, No Eggs / No Cheese": "bf",
+      "Lunch / Dinner Convenience Meals": "l",
+      "Hydration": "h",
+      "Buy Less Of For Now": "a"
+    };
 
-      const getCheckedGroups = () => {
-        const groups = [];
-        document.querySelectorAll("main > section:not(#checked-panel)").forEach((section) => {
-          const items = Array.from(section.querySelectorAll('input[type="checkbox"]:checked'))
-            .map((box) => {
-              const label = section.querySelector(`label[for="${box.id}"]`);
-              return label ? label.textContent.trim() : "";
-            })
-            .filter(Boolean);
+    const status = document.getElementById("save-status");
+    const reset = document.getElementById("reset-list");
+    const showChecked = document.getElementById("show-checked");
+    const hideChecked = document.getElementById("hide-checked");
+    const checkedPanel = document.getElementById("checked-panel");
+    const checkedSummary = document.getElementById("checked-summary");
+    const checkedList = document.getElementById("checked-list");
+    const copyChecked = document.getElementById("copy-checked");
+    const shareChecked = document.getElementById("share-checked");
+    const printChecked = document.getElementById("print-checked");
+    const jump = document.getElementById("jump");
+    const shoppingSections = document.getElementById("shopping-sections");
 
-          if (items.length) {
-            const heading = section.querySelector("h2");
-            groups.push({
-              title: heading ? heading.textContent.trim() : "Other",
-              items
+    const markdown = await fetchMarkdown("01-whole-foods-shopping-list.md");
+    const documentData = parseMarkdown(markdown);
+    document.getElementById("page-title").textContent = documentData.title;
+    document.getElementById("page-lede").innerHTML = documentData.intro.map(renderInline).join(" ");
+
+    renderShoppingSections(documentData);
+
+    let checkboxes = Array.from(document.querySelectorAll('input[type="checkbox"][id]'));
+    const checks = loadChecks();
+    checkboxes.forEach((box) => {
+      box.checked = Boolean(checks[box.id]);
+      box.addEventListener("change", () => {
+        saveChecks();
+        if (checkedPanel.classList.contains("is-visible")) renderCheckedPanel();
+      });
+    });
+    saveChecks();
+
+    function renderShoppingSections(data) {
+      data.sections.forEach((section) => {
+        const sectionId = slugify(section.title);
+        const prefix = prefixByTitle[section.title] || sectionId.slice(0, 2);
+        const sectionEl = document.createElement("section");
+        sectionEl.id = sectionId;
+        sectionEl.dataset.title = section.title;
+
+        const heading = document.createElement("h2");
+        heading.textContent = section.title;
+        sectionEl.append(heading);
+
+        const anchor = document.createElement("a");
+        anchor.href = `#${sectionId}`;
+        anchor.textContent = shortTitle(section.title);
+        jump.append(anchor);
+
+        let itemIndex = 0;
+        section.blocks.forEach((block) => {
+          if (block.type === "p") {
+            const p = document.createElement("p");
+            p.className = "section-note";
+            p.innerHTML = renderInline(block.text);
+            sectionEl.append(p);
+          }
+
+          if (block.type === "ul") {
+            const ul = document.createElement("ul");
+            ul.className = "checklist";
+            block.items.forEach((item) => {
+              itemIndex += 1;
+              const id = `${prefix}${itemIndex}`;
+              const li = document.createElement("li");
+              const input = document.createElement("input");
+              input.id = id;
+              input.type = "checkbox";
+              const label = document.createElement("label");
+              label.htmlFor = id;
+              label.innerHTML = renderInline(item);
+              li.append(input, label);
+              ul.append(li);
             });
+            sectionEl.append(ul);
           }
         });
-        return groups;
-      };
 
-      const checkedText = () => {
-        const groups = getCheckedGroups();
-        if (!groups.length) return "No checked items yet.";
-        return groups
-          .map((group) => `${group.title}\n${group.items.map((item) => `- ${item}`).join("\n")}`)
-          .join("\n\n");
-      };
+        shoppingSections.append(sectionEl);
+      });
+    }
 
-      const renderCheckedPanel = () => {
-        const groups = getCheckedGroups();
-        const itemCount = groups.reduce((sum, group) => sum + group.items.length, 0);
-        checkedSummary.textContent = itemCount
-          ? `${itemCount} checked item${itemCount === 1 ? "" : "s"} from this phone.`
-          : "No checked items yet.";
-        checkedList.innerHTML = "";
+    function shortTitle(title) {
+      return title
+        .replace("Prepared / Ready-To-Eat Proteins", "Prepared")
+        .replace("Easy Cook-at-Home Proteins", "Protein")
+        .replace("Low-Sugar Protein Drinks", "Shakes")
+        .replace("Vegetables / Sides", "Sides")
+        .replace("Breakfast Options, No Eggs / No Cheese", "Breakfast")
+        .replace("Lunch / Dinner Convenience Meals", "Meals")
+        .replace("Buy Less Of For Now", "Avoid");
+    }
 
-        if (!groups.length) {
-          const empty = document.createElement("p");
-          empty.className = "empty-message";
-          empty.textContent = "Check items in the shopping list, then come back here for a clean screenshot.";
-          checkedList.append(empty);
-          return;
-        }
+    function loadChecks() {
+      try {
+        return JSON.parse(localStorage.getItem(storageKey)) || {};
+      } catch {
+        return {};
+      }
+    }
 
-        groups.forEach((group) => {
-          const wrapper = document.createElement("div");
-          wrapper.className = "checked-group";
-
-          const heading = document.createElement("h3");
-          heading.textContent = group.title;
-
-          const list = document.createElement("ul");
-          group.items.forEach((item) => {
-            const row = document.createElement("li");
-            row.textContent = item;
-            list.append(row);
-          });
-
-          wrapper.append(heading, list);
-          checkedList.append(wrapper);
-        });
-      };
-
-      const checks = loadChecks();
+    function saveChecks() {
+      const checks = {};
       checkboxes.forEach((box) => {
-        box.checked = Boolean(checks[box.id]);
-        box.addEventListener("change", () => {
-          saveChecks();
-          if (checkedPanel.classList.contains("is-visible")) renderCheckedPanel();
+        checks[box.id] = box.checked;
+      });
+      localStorage.setItem(storageKey, JSON.stringify(checks));
+      const checkedCount = checkboxes.filter((box) => box.checked).length;
+      status.textContent = checkedCount
+        ? `Saved: ${checkedCount} checked`
+        : "Saved on this phone";
+    }
+
+    function getCheckedGroups() {
+      const groups = [];
+      shoppingSections.querySelectorAll("section").forEach((section) => {
+        const items = Array.from(section.querySelectorAll('input[type="checkbox"]:checked'))
+          .map((box) => {
+            const label = section.querySelector(`label[for="${box.id}"]`);
+            return label ? label.textContent.trim() : "";
+          })
+          .filter(Boolean);
+
+        if (items.length) {
+          groups.push({
+            title: section.dataset.title || "Other",
+            items
+          });
+        }
+      });
+      return groups;
+    }
+
+    function checkedText() {
+      const groups = getCheckedGroups();
+      if (!groups.length) return "No checked items yet.";
+      return groups
+        .map((group) => `${group.title}\n${group.items.map((item) => `- ${item}`).join("\n")}`)
+        .join("\n\n");
+    }
+
+    function renderCheckedPanel() {
+      const groups = getCheckedGroups();
+      const itemCount = groups.reduce((sum, group) => sum + group.items.length, 0);
+      checkedSummary.textContent = itemCount
+        ? `${itemCount} checked item${itemCount === 1 ? "" : "s"} from this phone.`
+        : "No checked items yet.";
+      checkedList.innerHTML = "";
+
+      if (!groups.length) {
+        const empty = document.createElement("p");
+        empty.className = "empty-message";
+        empty.textContent = "Check items in the shopping list, then come back here for a clean screenshot.";
+        checkedList.append(empty);
+        return;
+      }
+
+      groups.forEach((group) => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "checked-group";
+        const heading = document.createElement("h3");
+        heading.textContent = group.title;
+        const list = document.createElement("ul");
+        group.items.forEach((item) => {
+          const row = document.createElement("li");
+          row.textContent = item;
+          list.append(row);
         });
+        wrapper.append(heading, list);
+        checkedList.append(wrapper);
       });
+    }
 
-      showChecked.addEventListener("click", () => {
-        renderCheckedPanel();
-        checkedPanel.classList.add("is-visible");
-        checkedPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    showChecked.addEventListener("click", () => {
+      renderCheckedPanel();
+      checkedPanel.classList.add("is-visible");
+      checkedPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    hideChecked.addEventListener("click", () => {
+      checkedPanel.classList.remove("is-visible");
+    });
+
+    copyChecked.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(checkedText());
+        checkedSummary.textContent = "Copied checked items to clipboard.";
+      } catch {
+        checkedSummary.textContent = "Copy did not work in this browser.";
+      }
+    });
+
+    shareChecked.addEventListener("click", async () => {
+      const text = checkedText();
+      if (!navigator.share) {
+        checkedSummary.textContent = "Share is not available here. Try Copy text.";
+        return;
+      }
+      try {
+        await navigator.share({ title: "Checked shopping list", text });
+      } catch {
+        checkedSummary.textContent = "Share canceled.";
+      }
+    });
+
+    printChecked.addEventListener("click", () => {
+      renderCheckedPanel();
+      checkedPanel.classList.add("is-visible");
+      document.body.classList.add("printing-checked");
+      window.print();
+    });
+
+    window.addEventListener("afterprint", () => {
+      document.body.classList.remove("printing-checked");
+    });
+
+    reset.addEventListener("click", () => {
+      if (!confirm("Clear all checked items on this phone?")) return;
+      checkboxes.forEach((box) => {
+        box.checked = false;
       });
-
-      hideChecked.addEventListener("click", () => {
-        checkedPanel.classList.remove("is-visible");
-      });
-
-      copyChecked.addEventListener("click", async () => {
-        try {
-          await navigator.clipboard.writeText(checkedText());
-          checkedSummary.textContent = "Copied checked items to clipboard.";
-        } catch {
-          checkedSummary.textContent = "Copy did not work in this browser.";
-        }
-      });
-
-      shareChecked.addEventListener("click", async () => {
-        const text = checkedText();
-        if (!navigator.share) {
-          checkedSummary.textContent = "Share is not available here. Try Copy text.";
-          return;
-        }
-        try {
-          await navigator.share({ title: "Checked shopping list", text });
-        } catch {
-          checkedSummary.textContent = "Share canceled.";
-        }
-      });
-
-      printChecked.addEventListener("click", () => {
-        renderCheckedPanel();
-        checkedPanel.classList.add("is-visible");
-        document.body.classList.add("printing-checked");
-        window.print();
-      });
-
-      window.addEventListener("afterprint", () => {
-        document.body.classList.remove("printing-checked");
-      });
-
-      reset.addEventListener("click", () => {
-        if (!confirm("Clear all checked items on this phone?")) return;
-        checkboxes.forEach((box) => {
-          box.checked = false;
-        });
-        saveChecks();
-        renderCheckedPanel();
-      });
-
       saveChecks();
-    })();
+      renderCheckedPanel();
+    });
   </script>
 </body>
 </html>
+
