@@ -64,6 +64,43 @@
       font-weight: 650;
     }
 
+    .controls {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 0 -16px 14px;
+      padding: 10px 16px;
+      background: rgba(251, 250, 245, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+
+    .save-status {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .reset-button {
+      min-height: 40px;
+      border: 1px solid #c9d2c7;
+      border-radius: 8px;
+      padding: 0 14px;
+      color: var(--accent);
+      background: var(--card);
+      font: inherit;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .reset-button:active {
+      transform: translateY(1px);
+    }
+
     .jump {
       display: flex;
       gap: 8px;
@@ -166,6 +203,10 @@
         display: none;
       }
 
+      .controls {
+        display: none;
+      }
+
       section {
         break-inside: avoid;
         box-shadow: none;
@@ -200,6 +241,11 @@
       <p class="lede">Buy easy, normal, appetizing options so Dad can eat enough while recovering.</p>
       <p class="note">Main idea: protein often, moderate carbs, avoid sugar bombs, keep meals small.</p>
     </header>
+
+    <div class="controls" aria-label="Shopping list controls">
+      <span id="save-status" class="save-status">Saved on this phone</span>
+      <button id="reset-list" class="reset-button" type="button">Clear checks</button>
+    </div>
 
     <nav class="jump" aria-label="Shopping list sections">
       <a href="#prepared">Prepared</a>
@@ -401,6 +447,49 @@
       <p>This is a practical shopping aid, not a substitute for the surgical or oncology team's instructions.</p>
     </footer>
   </main>
+  <script>
+    (() => {
+      const storageKey = "whole-foods-shopping-list-v1";
+      const checkboxes = Array.from(document.querySelectorAll('input[type="checkbox"][id]'));
+      const status = document.getElementById("save-status");
+      const reset = document.getElementById("reset-list");
+
+      const loadChecks = () => {
+        try {
+          return JSON.parse(localStorage.getItem(storageKey)) || {};
+        } catch {
+          return {};
+        }
+      };
+
+      const saveChecks = () => {
+        const checks = {};
+        checkboxes.forEach((box) => {
+          checks[box.id] = box.checked;
+        });
+        localStorage.setItem(storageKey, JSON.stringify(checks));
+        const checkedCount = checkboxes.filter((box) => box.checked).length;
+        status.textContent = checkedCount
+          ? `Saved: ${checkedCount} checked`
+          : "Saved on this phone";
+      };
+
+      const checks = loadChecks();
+      checkboxes.forEach((box) => {
+        box.checked = Boolean(checks[box.id]);
+        box.addEventListener("change", saveChecks);
+      });
+
+      reset.addEventListener("click", () => {
+        if (!confirm("Clear all checked items on this phone?")) return;
+        checkboxes.forEach((box) => {
+          box.checked = false;
+        });
+        saveChecks();
+      });
+
+      saveChecks();
+    })();
+  </script>
 </body>
 </html>
-
