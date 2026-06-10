@@ -13,6 +13,7 @@ Core theme:
 - [3-Day Mix-and-Match Meal Plan](./03-three-day-meal-plan.md)
 - [Questions for Surgical / Oncology Team](./04-questions-for-care-team.md)
 - [Working Notes and Sources](./05-working-notes-and-sources.md)
+- [Current Inventory and Quick Menu Ideas](./06-current-inventory-and-menu-ideas.md)
 
 ## Current Assumptions
 
@@ -23,4 +24,3 @@ Core theme:
 - Small frequent meals are likely easier than large meals.
 - Watch for signs of pancreatic enzyme insufficiency: greasy/floating stools, urgent diarrhea, bloating, or weight loss.
 - Splenectomy mainly changes infection/vaccine/fever vigilance, not the grocery list.
-

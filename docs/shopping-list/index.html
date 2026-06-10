@@ -69,6 +69,7 @@
       top: 0;
       z-index: 2;
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
@@ -79,13 +80,18 @@
       backdrop-filter: blur(10px);
     }
 
+    .control-actions {
+      display: flex;
+      gap: 8px;
+    }
+
     .save-status {
       color: var(--muted);
       font-size: 14px;
       font-weight: 650;
     }
 
-    .reset-button {
+    .control-button {
       min-height: 40px;
       border: 1px solid #c9d2c7;
       border-radius: 8px;
@@ -97,8 +103,82 @@
       font-weight: 800;
     }
 
-    .reset-button:active {
+    .control-button.primary {
+      color: #ffffff;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .control-button:active {
       transform: translateY(1px);
+    }
+
+    .checked-panel {
+      display: none;
+      border-color: #bed6c5;
+      background: #f7fbf8;
+    }
+
+    .checked-panel.is-visible {
+      display: block;
+    }
+
+    .checked-panel-header {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .checked-panel h2 {
+      margin-bottom: 4px;
+    }
+
+    .checked-panel p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .checked-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 12px;
+    }
+
+    .checked-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .checked-group h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      line-height: 1.2;
+      letter-spacing: 0;
+      color: var(--accent);
+    }
+
+    .checked-group ul {
+      padding-left: 20px;
+      list-style: disc;
+      display: block;
+    }
+
+    .checked-group li {
+      display: list-item;
+      padding: 3px 0;
+      border-top: 0;
+    }
+
+    .empty-message {
+      margin: 0;
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      color: var(--muted);
     }
 
     .jump {
@@ -207,6 +287,29 @@
         display: none;
       }
 
+      .checked-panel {
+        display: block;
+      }
+
+      .checked-panel-header,
+      .checked-actions {
+        display: none;
+      }
+
+      body.printing-checked header,
+      body.printing-checked .controls,
+      body.printing-checked .jump,
+      body.printing-checked footer,
+      body.printing-checked main > section:not(#checked-panel) {
+        display: none;
+      }
+
+      body.printing-checked .checked-panel {
+        border: 0;
+        margin: 0;
+        padding: 0;
+      }
+
       section {
         break-inside: avoid;
         box-shadow: none;
@@ -244,8 +347,27 @@
 
     <div class="controls" aria-label="Shopping list controls">
       <span id="save-status" class="save-status">Saved on this phone</span>
-      <button id="reset-list" class="reset-button" type="button">Clear checks</button>
+      <div class="control-actions">
+        <button id="show-checked" class="control-button primary" type="button">Checked list</button>
+        <button id="reset-list" class="control-button" type="button">Clear checks</button>
+      </div>
     </div>
+
+    <section id="checked-panel" class="checked-panel" aria-live="polite">
+      <div class="checked-panel-header">
+        <div>
+          <h2>Checked Items</h2>
+          <p id="checked-summary">Ready for a screenshot.</p>
+        </div>
+        <button id="hide-checked" class="control-button" type="button">Hide</button>
+      </div>
+      <div class="checked-actions">
+        <button id="copy-checked" class="control-button" type="button">Copy text</button>
+        <button id="share-checked" class="control-button" type="button">Share</button>
+        <button id="print-checked" class="control-button" type="button">Print</button>
+      </div>
+      <div id="checked-list" class="checked-list"></div>
+    </section>
 
     <nav class="jump" aria-label="Shopping list sections">
       <a href="#prepared">Prepared</a>
@@ -453,6 +575,14 @@
       const checkboxes = Array.from(document.querySelectorAll('input[type="checkbox"][id]'));
       const status = document.getElementById("save-status");
       const reset = document.getElementById("reset-list");
+      const showChecked = document.getElementById("show-checked");
+      const hideChecked = document.getElementById("hide-checked");
+      const checkedPanel = document.getElementById("checked-panel");
+      const checkedSummary = document.getElementById("checked-summary");
+      const checkedList = document.getElementById("checked-list");
+      const copyChecked = document.getElementById("copy-checked");
+      const shareChecked = document.getElementById("share-checked");
+      const printChecked = document.getElementById("print-checked");
 
       const loadChecks = () => {
         try {
@@ -474,10 +604,120 @@
           : "Saved on this phone";
       };
 
+      const getCheckedGroups = () => {
+        const groups = [];
+        document.querySelectorAll("main > section:not(#checked-panel)").forEach((section) => {
+          const items = Array.from(section.querySelectorAll('input[type="checkbox"]:checked'))
+            .map((box) => {
+              const label = section.querySelector(`label[for="${box.id}"]`);
+              return label ? label.textContent.trim() : "";
+            })
+            .filter(Boolean);
+
+          if (items.length) {
+            const heading = section.querySelector("h2");
+            groups.push({
+              title: heading ? heading.textContent.trim() : "Other",
+              items
+            });
+          }
+        });
+        return groups;
+      };
+
+      const checkedText = () => {
+        const groups = getCheckedGroups();
+        if (!groups.length) return "No checked items yet.";
+        return groups
+          .map((group) => `${group.title}\n${group.items.map((item) => `- ${item}`).join("\n")}`)
+          .join("\n\n");
+      };
+
+      const renderCheckedPanel = () => {
+        const groups = getCheckedGroups();
+        const itemCount = groups.reduce((sum, group) => sum + group.items.length, 0);
+        checkedSummary.textContent = itemCount
+          ? `${itemCount} checked item${itemCount === 1 ? "" : "s"} from this phone.`
+          : "No checked items yet.";
+        checkedList.innerHTML = "";
+
+        if (!groups.length) {
+          const empty = document.createElement("p");
+          empty.className = "empty-message";
+          empty.textContent = "Check items in the shopping list, then come back here for a clean screenshot.";
+          checkedList.append(empty);
+          return;
+        }
+
+        groups.forEach((group) => {
+          const wrapper = document.createElement("div");
+          wrapper.className = "checked-group";
+
+          const heading = document.createElement("h3");
+          heading.textContent = group.title;
+
+          const list = document.createElement("ul");
+          group.items.forEach((item) => {
+            const row = document.createElement("li");
+            row.textContent = item;
+            list.append(row);
+          });
+
+          wrapper.append(heading, list);
+          checkedList.append(wrapper);
+        });
+      };
+
       const checks = loadChecks();
       checkboxes.forEach((box) => {
         box.checked = Boolean(checks[box.id]);
-        box.addEventListener("change", saveChecks);
+        box.addEventListener("change", () => {
+          saveChecks();
+          if (checkedPanel.classList.contains("is-visible")) renderCheckedPanel();
+        });
+      });
+
+      showChecked.addEventListener("click", () => {
+        renderCheckedPanel();
+        checkedPanel.classList.add("is-visible");
+        checkedPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      hideChecked.addEventListener("click", () => {
+        checkedPanel.classList.remove("is-visible");
+      });
+
+      copyChecked.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(checkedText());
+          checkedSummary.textContent = "Copied checked items to clipboard.";
+        } catch {
+          checkedSummary.textContent = "Copy did not work in this browser.";
+        }
+      });
+
+      shareChecked.addEventListener("click", async () => {
+        const text = checkedText();
+        if (!navigator.share) {
+          checkedSummary.textContent = "Share is not available here. Try Copy text.";
+          return;
+        }
+        try {
+          await navigator.share({ title: "Checked shopping list", text });
+        } catch {
+          checkedSummary.textContent = "Share canceled.";
+        }
+      });
+
+      printChecked.addEventListener("click", () => {
+        renderCheckedPanel();
+        checkedPanel.classList.add("is-visible");
+        document.body.classList.add("printing-checked");
+        window.print();
+      });
+
+      window.addEventListener("afterprint", () => {
+        document.body.classList.remove("printing-checked");
       });
 
       reset.addEventListener("click", () => {
@@ -486,6 +726,7 @@
           box.checked = false;
         });
         saveChecks();
+        renderCheckedPanel();
       });
 
       saveChecks();
