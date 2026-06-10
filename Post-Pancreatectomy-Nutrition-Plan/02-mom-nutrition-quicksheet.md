@@ -50,8 +50,19 @@ These can be useful, but use reasonable portions or watch tolerance.
 - Cookies, cake, pastries, ice cream as routine foods
 - Big greasy fried meals
 - Huge meals
+- Sugar-free candy or keto sweets that cause gas or diarrhea
+- Expired foods, stale opened snacks, or questionable leftovers
 - Alcohol unless the care team says okay
 - Dieting so strictly that he does not eat enough
+
+## Quick Pantry Sweep
+
+Do this once, calmly.
+
+- **Throw out:** sugary drinks, candy, dessert snacks, expired foods, questionable leftovers.
+- **Move out of sight:** chips, snack crackers, sweets, and foods that invite grazing.
+- **Keep:** soups, crackers, rice, potatoes, fruit, nuts, protein shakes, and easy proteins.
+- **Do not worry about perfection:** a useful protein shake or soup is okay even if the label is not perfect.
 
 ## Easy Sample Day
 
@@ -89,4 +100,3 @@ Evening snack:
 ## About Insulin Right Now
 
 Do not panic about insulin. After pancreatic surgery, blood sugar can be temporarily unstable. Ask the care team what numbers they want and follow their plan.
-
